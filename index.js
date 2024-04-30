@@ -28,7 +28,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     // CRUD
     const touristCollection = client.db('touristDB').collection('tourist')
@@ -74,6 +74,39 @@ async function run() {
     //   res.send(result)
     // })
 
+    //Country
+
+    const countryCollection = client.db('touristDB').collection('countrySide');
+
+    app.get('/countrySide', async (req, res) => {
+      const cursor = countryCollection.find();
+      const result = await cursor.toArray();
+      console.log(result);
+      res.send(result);
+    })
+
+    app.get('/countrySide', async(req,res)=>{
+      const cursor = countryCollection.find();
+      const result = await cursor.toArray();
+      console.log(result);
+      res.send(result);
+    
+    })
+
+    app.get('/countrySide/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await countryCollection.findOne(query)
+      res.send(result)
+    })
+
+    // app.get('/countrySide/:id', async (req, res) => {
+    //   const id = req.params.id;
+    //   const products = await countryCollection.find({ countrySide: id }).toArray();
+    //   res.send(products);
+    // })
+
+    // Counrty end
 
 
 
@@ -85,7 +118,7 @@ async function run() {
       res.send(result)
     })
 
-    
+
     app.put('/tourist/:id', async (req, res) => {
       const id = req.params.id
       const filter = { _id: new ObjectId(id) }
